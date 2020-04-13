@@ -1,6 +1,8 @@
-
 export default {
-  mode: 'universal',
+  mode: 'spa',
+  router: {
+    base: '/quwi-test/'
+  },
   /*
   ** Headers of the page
   */
