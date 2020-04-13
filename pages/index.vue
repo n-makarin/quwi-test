@@ -8,6 +8,7 @@
         class="index__project"
       />
     </div>
+    <nuxt-child />
   </div>
 </template>
 
