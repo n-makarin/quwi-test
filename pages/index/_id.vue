@@ -1,6 +1,11 @@
 <template>
   <div class="project-id" @click.self="$router.push('/')">
-    <Project class="project-id__item" :data="project" :edit="true" />
+    <div class="project-id__item">
+      <Project :data="project" :edit="true" />
+      <button class="project-id__btn" @click="save">
+        Save
+      </button>
+    </div>
   </div>
 </template>
 
@@ -12,13 +17,20 @@ export default {
   components: {
     Project
   },
-  middleware: 'auth',
+  middleware: 'projectItem',
   computed: {
     ...mapGetters({
       project: 'project/data'
     })
   },
   methods: {
+    save () {
+      this.$store.dispatch('project/edit', {
+        project: this.project,
+        userId: this.$store.getters['auth/userId'],
+        token: this.$store.getters['auth/token']
+      })
+    }
   }
 }
 </script>
@@ -37,6 +49,24 @@ export default {
   &__item {
     width: 100%;
     max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 5px;
+  }
+  &__btn {
+    margin-left: auto;
+    margin-top: 5px;
+    margin-right: 22px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    padding: 7px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    &:hover {
+      background: #f1f1f1;
+    }
   }
 }
 </style>
