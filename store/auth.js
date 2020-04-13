@@ -3,7 +3,8 @@ import * as api from '~/api/index'
 
 export const state = () => ({
   authorized: false,
-  token: ''
+  token: '',
+  userId: ''
 })
 
 export const mutations = {
@@ -12,6 +13,9 @@ export const mutations = {
   },
   SET_TOKEN (state, token) {
     state.token = token
+  },
+  SET_USER_ID (state, id) {
+    state.userId = id
   }
 }
 
@@ -24,11 +28,15 @@ export const actions = {
     if (!response || response.status !== 200) { return }
     commit('SET_AUTHORIZED', true)
     commit('SET_TOKEN', response.data.token)
+    commit('SET_USER_ID', response.data.app_init.user.id)
     this.app.$cookies.set(cookies.auth.name, true, {
       maxAge: cookies.auth.maxAge
     })
     this.app.$cookies.set(cookies.token.name, response.data.token, {
       maxAge: cookies.token.maxAge
+    })
+    this.app.$cookies.set(cookies.userId.name, response.data.app_init.user.id, {
+      maxAge: cookies.userId.maxAge
     })
   },
   setAuthorized ({ commit }, value) {
@@ -36,6 +44,9 @@ export const actions = {
   },
   setToken ({ commit }, token) {
     commit('SET_TOKEN', token)
+  },
+  setUserId ({ commit }, id) {
+    commit('SET_USER_ID', id)
   },
   logout ({ commit }) {
     commit('SET_AUTHORIZED', false)
@@ -49,10 +60,15 @@ export const actions = {
       this.app.$cookies.get(cookies.token.name), {
         maxAge: cookies.token.maxAge
       })
+    this.app.$cookies.set(cookies.userId.name,
+      this.app.$cookies.get(cookies.userId.name), {
+        maxAge: cookies.userId.maxAge
+      })
   }
 }
 
 export const getters = {
   authorized: state => state.authorized,
-  token: state => state.authorized
+  token: state => state.token,
+  userId: state => state.userId
 }
