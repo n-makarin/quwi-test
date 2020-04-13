@@ -23,11 +23,9 @@ export default {
   middleware: 'auth',
   computed: {
     ...mapGetters({
-      projectList: 'project/list/data'
-    }),
-    token () {
-      return this.$cookies.get('token')
-    }
+      projectList: 'project/list/data',
+      token: 'auth/token'
+    })
   },
   beforeMount () {
     this.getProjectList(this.token)
