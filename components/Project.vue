@@ -1,9 +1,21 @@
 <template>
   <div class="project">
     <img class="project__logo" :src="data.logo_url">
-    <nuxt-link :to="`project/${data.id}`" class="project__name">
+
+    <nuxt-link
+      v-if="!edit"
+      :to="`${data.id}`"
+      class="project__name"
+      @click.native="selectProject"
+    >
       {{ data.name }}
     </nuxt-link>
+    <input
+      v-else
+      v-model="name"
+      class="project__name input"
+    >
+
     <div :class="['project__status', { active: data.is_active }]">
       {{ data.is_active ? 'Active' : 'Not active' }}
     </div>
@@ -34,9 +46,16 @@ export default {
     data: {
       type: Object,
       default: () => {}
+    },
+    edit: {
+      type: Boolean,
+      default: false
     }
   },
-  computed: {
+  data () {
+    return {
+      name: this.data.name
+    }
   },
   methods: {
     getTime (seconds) {
@@ -44,6 +63,9 @@ export default {
         .seconds(seconds)
         .format('H:mm:ss')
       return time
+    },
+    selectProject () {
+      this.$store.dispatch('project/set', this.data)
     }
   }
 }
@@ -67,15 +89,24 @@ export default {
     cursor: pointer;
     color: black;
     text-decoration: none;
+    margin-right: 20px;
     &:hover {
       text-decoration: underline;
+    }
+    &.input {
+      padding: 7px 3px;
+      cursor: inherit;
+      font-weight: normal;
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
   &__status {
     flex-grow: 1;
     color: red;
     font-weight: bold;
-
+    margin-right: 20px;
     &.active {
       color: green;
     }
