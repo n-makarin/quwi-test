@@ -1,5 +1,5 @@
 <template>
-  <div class="project">
+  <div :class="['project', { edit: edit }]">
     <img class="project__logo" :src="data.logo_url">
 
     <nuxt-link
@@ -14,6 +14,7 @@
       v-else
       v-model="name"
       class="project__name input"
+      @change="changeProject"
     >
 
     <div :class="['project__status', { active: data.is_active }]">
@@ -66,6 +67,12 @@ export default {
     },
     selectProject () {
       this.$store.dispatch('project/set', this.data)
+    },
+    changeProject () {
+      if (!this.data) { return }
+      const data = Object.assign({}, this.data)
+      data.name = this.name
+      this.$store.dispatch('project/set', data)
     }
   }
 }
@@ -73,12 +80,14 @@ export default {
 
 <style lang="scss" scoped>
 .project {
+  &:not(.edit) {
+    border: 1px solid #ececec;
+    border-radius: 5px;
+    background: white;
+  }
   display: flex;
   align-items: center;
   padding: 20px 25px;
-  border: 1px solid #ececec;
-  border-radius: 5px;
-  background: white;
   &__logo {
     max-width: 70px;
     margin-right: 15px;
