@@ -9,7 +9,8 @@ const ROUTES = {
 export default function ({ store, redirect, app }) {
   if (isAuthorized(store, app)) {
     store.dispatch('auth/setAuthorized', true)
-    store.dispatch('auth/prolongAuth')
+    store.dispatch('auth/setToken', app.$cookies.get(cookies.token.name))
+    store.dispatch('auth/prolongAuthCookies')
     return redirect(ROUTES.index)
   } else {
     if (app.context.route.fullPath === ROUTES.login) { return }
