@@ -3,7 +3,7 @@ import axios from 'axios'
 const BASE_URL = 'https://api.quwi.com/v2/'
 
 async function login ({ email, password }) {
-  await axios({
+  return await axios({
     method: 'POST',
     url: `${BASE_URL}auth/login`,
     data: {
@@ -13,4 +13,17 @@ async function login ({ email, password }) {
   })
 }
 
-export { login }
+async function getProjectList (token) {
+  return await axios({
+    method: 'GET',
+    url: `${BASE_URL}projects-manage/index`,
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+}
+
+export {
+  login,
+  getProjectList
+}
