@@ -7,4 +7,9 @@ const auth = {
   maxAge: maxAge.month
 }
 
-export { auth }
+const token = {
+  name: 'token',
+  maxAge: maxAge.month
+}
+
+export { auth, token }
