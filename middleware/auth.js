@@ -9,6 +9,8 @@ const ROUTES = {
 export default function ({ store, redirect, app }) {
   if (isAuthorized(store, app)) {
     setDataFromCookies(store, app)
+    if (app.router.history.current.fullPath !== ROUTES.login) { return }
+    redirect(ROUTES.index)
   } else {
     if (app.context.route.fullPath === ROUTES.login) { return }
     return redirect(ROUTES.login)
