@@ -40,18 +40,22 @@ export default {
     }
   },
   methods: {
-    login () {
+    async login () {
       event.preventDefault()
       this.validateData()
       if (this.error.visible) {
         return
       }
-      this.$store.dispatch('auth/login', {
+      const self = this
+      await this.$store.dispatch('auth/login', {
         email: this.email,
         password: this.password
       })
-      if (this.authorized) { return }
-      this.error = {
+      if (self.authorized) {
+        self.$router.push('/')
+        return
+      }
+      self.error = {
         visible: true,
         text: 'Incorrect email or password'
       }
