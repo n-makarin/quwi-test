@@ -8,9 +8,7 @@ const ROUTES = {
 
 export default function ({ store, redirect, app }) {
   if (isAuthorized(store, app)) {
-    store.dispatch('auth/setAuthorized', true)
-    store.dispatch('auth/setToken', app.$cookies.get(cookies.token.name))
-    store.dispatch('auth/prolongAuthCookies')
+    setDataFromCookies(store, app)
   } else {
     if (app.context.route.fullPath === ROUTES.login) { return }
     return redirect(ROUTES.login)
@@ -19,4 +17,11 @@ export default function ({ store, redirect, app }) {
 
 function isAuthorized (store, app) {
   return store.getters['auth/authorized'] || app.$cookies.get(cookies.auth.name)
+}
+
+function setDataFromCookies (store, app) {
+  store.dispatch('auth/setAuthorized', true)
+  store.dispatch('auth/setToken', app.$cookies.get(cookies.token.name))
+  store.dispatch('auth/setUserId', app.$cookies.get(cookies.userId.name))
+  store.dispatch('auth/prolongAuthCookies')
 }
