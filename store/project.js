@@ -1,3 +1,5 @@
+import * as api from '~/api/index'
+
 export const state = () => ({
   data: {}
 })
@@ -11,6 +13,9 @@ export const mutations = {
 export const actions = {
   set ({ commit }, project) {
     commit('SET_DATA', project)
+  },
+  async edit ({ commit }, { project, userId, token }) {
+    return await api.editProject(project, userId, token)
   }
 }
 
