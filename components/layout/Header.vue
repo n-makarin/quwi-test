@@ -17,14 +17,18 @@ export default {
       return this.$store.getters['auth/authorized']
     }
   },
+  watch: {
+    authorized (val) {
+      if (this.authorized) { return }
+      this.$router.push('/login')
+    }
+  },
   methods: {
     async logout () {
       await this.$store.dispatch(
         'auth/logout',
         this.$store.getters['auth/token']
       )
-      if (this.authorized) { return }
-      this.$router.push('/login')
     }
   }
 }
