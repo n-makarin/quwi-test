@@ -32,7 +32,6 @@ export const actions = {
     this.app.$cookies.set(cookies.token.name, response.data.token, {
       maxAge: cookies.token.maxAge
     })
-    return response
   },
 
   setAuthorized ({ commit }, value) {
