@@ -18,6 +18,14 @@ export const actions = {
       })
     if (!response || response.status !== 200) { return }
     commit('SET_DATA', response.data.projects)
+  },
+  edit ({ commit, getters }, project) {
+    const localData = getters.data
+    localData.forEach((projectItem, index) => {
+      if (projectItem.id !== project.id) { return }
+      localData[index] = project
+    })
+    commit('SET_DATA', localData)
   }
 }
 
