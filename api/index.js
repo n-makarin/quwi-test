@@ -13,6 +13,16 @@ async function login ({ email, password }) {
   })
 }
 
+async function logout (token) {
+  return await axios({
+    method: 'POST',
+    url: `${BASE_URL}auth/logout`,
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+}
+
 async function getProjectList (token) {
   return await axios({
     method: 'GET',
@@ -39,6 +49,7 @@ async function editProject (project, token) {
 
 export {
   login,
+  logout,
   getProjectList,
   editProject
 }
