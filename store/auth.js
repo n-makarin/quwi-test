@@ -17,11 +17,13 @@ export const mutations = {
 
 export const actions = {
   async login ({ commit }, { email, password }) {
+    let error
     const response = await api.login({ email, password })
       .catch((err) => {
         console.log(err)
+        error = err
       })
-    if (!response || response.status !== 200) { return }
+    if (!response || response.status !== 200) { return error }
     commit('SET_AUTHORIZED', true)
     commit('SET_TOKEN', response.data.token)
     this.app.$cookies.set(cookies.auth.name, true, {
@@ -30,6 +32,7 @@ export const actions = {
     this.app.$cookies.set(cookies.token.name, response.data.token, {
       maxAge: cookies.token.maxAge
     })
+    return response
   },
 
   setAuthorized ({ commit }, value) {

@@ -41,12 +41,7 @@ export default {
   },
   watch: {
     authorized (val) {
-      if (!val) {
-        this.error = {
-          visible: true,
-          text: 'Incorrect email or password'
-        }
-      }
+      if (!val) { return }
       this.$router.push('/')
     }
   },
@@ -56,11 +51,17 @@ export default {
       if (this.error.visible) { return }
       this.login()
     },
-    login () {
-      this.$store.dispatch('auth/login', {
+    async login () {
+      const error = await this.$store.dispatch('auth/login', {
         email: this.email,
         password: this.password
       })
+      if (error) {
+        this.error = {
+          visible: true,
+          text: 'Incorrect email or password'
+        }
+      }
     },
     validateData () {
       if (!this.email || !this.password) {
