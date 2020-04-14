@@ -2,7 +2,7 @@ import * as cookies from '~/plugins/vendor/cookie-universal-nuxt.js'
 
 const ROUTES = {
   index: '/',
-  login: '/login'
+  login: '/login/'
 }
 
 export default function ({ store, redirect, app }) {
