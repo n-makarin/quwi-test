@@ -40,6 +40,7 @@ export default {
 
 <style lang="scss" scoped>
 .index {
+  padding-top: 20px;
   &__project-list {
     display: flex;
     flex-direction: column;
