@@ -9,11 +9,9 @@ const ROUTES = {
 export default function ({ store, redirect, app }) {
   if (isAuthorized(store, app)) {
     setDataFromCookies(store, app)
-    if (app.router.history.current.fullPath !== ROUTES.login) { return }
-    redirect(ROUTES.index)
+    redirectToIndexFromLogin(app, redirect)
   } else {
-    if (app.context.route.fullPath === ROUTES.login) { return }
-    return redirect(ROUTES.login)
+    redirectToLogin(app, redirect)
   }
 }
 
@@ -26,4 +24,14 @@ function setDataFromCookies (store, app) {
   store.dispatch('auth/setToken', app.$cookies.get(cookies.token.name))
   store.dispatch('auth/setUserId', app.$cookies.get(cookies.userId.name))
   store.dispatch('auth/prolongAuthCookies')
+}
+
+function redirectToIndexFromLogin (app, redirect) {
+  if (app.context.route.fullPath !== ROUTES.login) { return }
+  redirect(ROUTES.index)
+}
+
+function redirectToLogin (app, redirect) {
+  if (app.context.route.fullPath === ROUTES.login) { return }
+  return redirect(ROUTES.login)
 }
