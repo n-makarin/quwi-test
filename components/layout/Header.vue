@@ -24,8 +24,8 @@ export default {
     }
   },
   methods: {
-    async logout () {
-      await this.$store.dispatch(
+    logout () {
+      this.$store.dispatch(
         'auth/logout',
         this.$store.getters['auth/token']
       )

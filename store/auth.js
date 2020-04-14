@@ -43,12 +43,12 @@ export const actions = {
     commit('SET_TOKEN', token)
   },
 
-  async logout ({ commit }, token) {
+  logout ({ commit }, token) {
     this.app.$cookies.remove(cookies.auth.name)
     this.app.$cookies.remove(cookies.token.name)
     commit('SET_TOKEN', '')
     commit('SET_AUTHORIZED', false)
-    await api.logout(token)
+    api.logout(token)
       .catch((err) => {
         console.log(err)
       })
