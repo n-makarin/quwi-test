@@ -31,12 +31,15 @@ export const actions = {
       maxAge: cookies.token.maxAge
     })
   },
+
   setAuthorized ({ commit }, value) {
     commit('SET_AUTHORIZED', value)
   },
+
   setToken ({ commit }, token) {
     commit('SET_TOKEN', token)
   },
+
   async logout ({ commit }, token) {
     const response = await api.logout(token)
       .catch((err) => {
@@ -48,6 +51,7 @@ export const actions = {
     this.app.$cookies.remove(cookies.auth.name)
     this.app.$cookies.remove(cookies.token.name)
   },
+
   prolongAuthCookies () {
     this.app.$cookies.set(cookies.auth.name, true, {
       maxAge: cookies.auth.maxAge
