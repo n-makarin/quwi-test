@@ -2,15 +2,15 @@ import * as cookies from '~/plugins/vendor/cookie-universal-nuxt.js'
 
 const ROUTES = {
   index: '/',
-  login: '/login/'
+  login: '/login'
 }
 
-export default function ({ store, redirect, app }) {
+export default function ({ store, route, redirect, app }) {
   if (isAuthorized(store, app)) {
     setDataFromCookies(store, app)
     redirectToIndexFromLogin(app, redirect)
   } else {
-    redirectToLogin(app, redirect)
+    redirectToLogin(route, redirect)
   }
 }
 
@@ -29,8 +29,7 @@ function redirectToIndexFromLogin (app, redirect) {
   redirect(ROUTES.index)
 }
 
-function redirectToLogin (app, redirect) {
-  const path = app.context.route.fullPath
-  if (path === ROUTES.login || path === ROUTES.login.slice(0, -1)) { return }
+function redirectToLogin (route, redirect) {
+  if (route.name === 'login') { return }
   return redirect(ROUTES.login)
 }
