@@ -44,15 +44,14 @@ export const actions = {
   },
 
   async logout ({ commit }, token) {
-    const response = await api.logout(token)
+    this.app.$cookies.remove(cookies.auth.name)
+    this.app.$cookies.remove(cookies.token.name)
+    commit('SET_TOKEN', '')
+    commit('SET_AUTHORIZED', false)
+    await api.logout(token)
       .catch((err) => {
         console.log(err)
       })
-    if (!response || response.status !== 200) { return }
-    commit('SET_TOKEN', '')
-    commit('SET_AUTHORIZED', false)
-    this.app.$cookies.remove(cookies.auth.name)
-    this.app.$cookies.remove(cookies.token.name)
   },
 
   prolongAuthCookies () {
