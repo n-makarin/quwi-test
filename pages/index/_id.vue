@@ -24,11 +24,18 @@ export default {
     })
   },
   methods: {
-    save () {
-      this.$store.dispatch('project/edit', {
+    async save () {
+      let error
+      await this.$store.dispatch('project/edit', {
         project: this.project,
         token: this.$store.getters['auth/token']
       })
+        .catch((err) => {
+          error = err
+        })
+      if (error) { return }
+      this.$store.dispatch('project/list/edit', this.project)
+      this.$router.push('/')
     }
   }
 }
