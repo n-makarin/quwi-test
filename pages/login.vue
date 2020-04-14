@@ -4,7 +4,7 @@
       <div class="login__title">
         login
       </div>
-      <form type="submit" class="login__form" @submit="login">
+      <form type="submit" class="login__form" @submit.prevent="submit">
         <input v-model="email" type="email" placeholder="Email">
         <input v-model="password" type="password" placeholder="Password">
         <button class="login__btn" type="submit">
@@ -39,26 +39,28 @@ export default {
       return this.$store.getters['auth/authorized']
     }
   },
-  methods: {
-    async login () {
-      event.preventDefault()
-      this.validateData()
-      if (this.error.visible) {
-        return
+  watch: {
+    authorized (val) {
+      if (!val) {
+        this.error = {
+          visible: true,
+          text: 'Incorrect email or password'
+        }
       }
-      const self = this
-      await this.$store.dispatch('auth/login', {
+      this.$router.push('/')
+    }
+  },
+  methods: {
+    submit () {
+      this.validateData()
+      if (this.error.visible) { return }
+      this.login()
+    },
+    login () {
+      this.$store.dispatch('auth/login', {
         email: this.email,
         password: this.password
       })
-      if (self.authorized) {
-        self.$router.push('/')
-        return
-      }
-      self.error = {
-        visible: true,
-        text: 'Incorrect email or password'
-      }
     },
     validateData () {
       if (!this.email || !this.password) {
