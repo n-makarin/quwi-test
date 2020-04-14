@@ -30,6 +30,7 @@ function redirectToIndexFromLogin (app, redirect) {
 }
 
 function redirectToLogin (app, redirect) {
-  if (app.context.route.fullPath === ROUTES.login) { return }
+  const path = app.context.route.fullPath
+  if (path === ROUTES.login || path === ROUTES.login.slice(0, -1)) { return }
   return redirect(ROUTES.login)
 }
