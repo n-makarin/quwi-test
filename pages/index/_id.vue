@@ -27,7 +27,6 @@ export default {
     save () {
       this.$store.dispatch('project/edit', {
         project: this.project,
-        userId: this.$store.getters['auth/userId'],
         token: this.$store.getters['auth/token']
       })
     }

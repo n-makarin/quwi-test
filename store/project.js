@@ -14,8 +14,8 @@ export const actions = {
   set ({ commit }, project) {
     commit('SET_DATA', project)
   },
-  async edit ({ commit }, { project, userId, token }) {
-    return await api.editProject(project, userId, token)
+  async edit ({ commit }, { project, token }) {
+    return await api.editProject(project, token)
   }
 }
 

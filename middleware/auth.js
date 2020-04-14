@@ -1,4 +1,3 @@
-
 import * as cookies from '~/plugins/vendor/cookie-universal-nuxt.js'
 
 const ROUTES = {
@@ -22,7 +21,6 @@ function isAuthorized (store, app) {
 function setDataFromCookies (store, app) {
   store.dispatch('auth/setAuthorized', true)
   store.dispatch('auth/setToken', app.$cookies.get(cookies.token.name))
-  store.dispatch('auth/setUserId', app.$cookies.get(cookies.userId.name))
   store.dispatch('auth/prolongAuthCookies')
 }
 
