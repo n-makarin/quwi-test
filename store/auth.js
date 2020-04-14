@@ -44,8 +44,12 @@ export const actions = {
   },
 
   logout ({ commit }, token) {
-    this.app.$cookies.remove(cookies.auth.name)
-    this.app.$cookies.remove(cookies.token.name)
+    this.app.$cookies.set(cookies.auth.name, false, {
+      maxAge: cookies.auth.maxAge
+    })
+    this.app.$cookies.set(cookies.token.name, '', {
+      maxAge: cookies.token.maxAge
+    })
     commit('SET_TOKEN', '')
     commit('SET_AUTHORIZED', false)
     api.logout(token)
