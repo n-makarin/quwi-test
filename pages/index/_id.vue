@@ -2,9 +2,14 @@
   <div class="project-id" @click.self="$router.push('/')">
     <div class="project-id__item">
       <Project :data="project" :edit="true" />
-      <button class="project-id__btn" @click="save">
-        Save
-      </button>
+      <div class="project-id__save">
+        <div v-if="error.visible" class="project-id__error">
+          {{ error.text }}
+        </div>
+        <button class="project-id__btn" @click="save">
+          Save
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -18,6 +23,14 @@ export default {
     Project
   },
   middleware: 'projectItem',
+  data () {
+    return {
+      error: {
+        visible: false,
+        text: ''
+      }
+    }
+  },
   computed: {
     ...mapGetters({
       project: 'project/data'
@@ -33,9 +46,25 @@ export default {
         .catch((err) => {
           error = err
         })
-      if (error) { return }
+      if (error) {
+        this.setError(error)
+        return
+      }
+      this.hideError()
       this.$store.dispatch('project/list/edit', this.project)
       this.$router.push('/')
+    },
+    setError (error) {
+      this.error = {
+        visible: true,
+        text: `Error: ${error.response.status}`
+      }
+    },
+    hideError () {
+      this.error = {
+        visible: false,
+        text: ''
+      }
     }
   }
 }
@@ -60,11 +89,17 @@ export default {
     background: white;
     border-radius: 5px;
   }
+  &__save {
+    display: flex;
+    align-items: center;
+    padding: 5px 22px 20px;
+  }
+  &__error {
+    font-size: 14px;
+    color: red;
+  }
   &__btn {
     margin-left: auto;
-    margin-top: 5px;
-    margin-right: 22px;
-    margin-bottom: 20px;
     text-transform: uppercase;
     padding: 7px 25px;
     border-radius: 5px;
